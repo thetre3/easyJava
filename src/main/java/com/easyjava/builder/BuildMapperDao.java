@@ -34,6 +34,8 @@ public class BuildMapperDao {
                 bw.newLine();
                 bw.write("import org.apache.ibatis.annotations.Param;");
                 bw.newLine();
+                bw.write("import org.springframework.stereotype.Repository;");
+                bw.newLine();
                 //是否存在时间类型
                 if (tableInfo.getHaveDate() || tableInfo.getHaveDateTime()) {
                     bw.write("import java.time.LocalDateTime;");
@@ -41,6 +43,8 @@ public class BuildMapperDao {
                 }
                 bw.newLine();
                 BuildCommnet.createClassComment(bw, tableInfo.getComment());
+                bw.write("@Repository");
+                bw.newLine();
                 bw.write("public interface " + className + "<T,P> extends BaseMapper {");
                 bw.newLine();
                 //属性生成
