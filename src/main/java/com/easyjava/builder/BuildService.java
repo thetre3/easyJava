@@ -47,6 +47,11 @@ public class BuildService {
                 bw.newLine();
                 bw.write("import java.util.List;");
                 bw.newLine();
+                //是否存在时间类型
+                if (tableInfo.getHaveDate() || tableInfo.getHaveDateTime()) {
+                    bw.write("import java.time.LocalDateTime;");
+                    bw.newLine();
+                }
                 bw.newLine();
                 BuildCommnet.createClassComment(bw, className);
                 bw.write("public interface " + className + " {");

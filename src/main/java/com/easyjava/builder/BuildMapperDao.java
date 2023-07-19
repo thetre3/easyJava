@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-public class BuildMapper {
-    private static final Logger logger = LoggerFactory.getLogger(BuildMapper.class);
+public class BuildMapperDao {
+    private static final Logger logger = LoggerFactory.getLogger(BuildMapperDao.class);
 
     public static void execute(TableInfo tableInfo) {
         {
@@ -34,6 +34,11 @@ public class BuildMapper {
                 bw.newLine();
                 bw.write("import org.apache.ibatis.annotations.Param;");
                 bw.newLine();
+                //是否存在时间类型
+                if (tableInfo.getHaveDate() || tableInfo.getHaveDateTime()) {
+                    bw.write("import java.time.LocalDateTime;");
+                    bw.newLine();
+                }
                 bw.newLine();
                 BuildCommnet.createClassComment(bw, tableInfo.getComment());
                 bw.write("public interface " + className + "<T,P> extends BaseMapper {");

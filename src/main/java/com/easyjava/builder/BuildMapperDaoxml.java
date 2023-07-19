@@ -18,7 +18,8 @@ import java.util.StringJoiner;
 /**
  * 拆分构建方法
  */
-public class BuildMapperxml {
+public class BuildMapperDaoxml {
+    private static Map<String, String> keymap = new HashMap<>();
     private static Map<String, List<FieldInfo>> keyIndexMap = new HashMap<>();
     private static String poclass;
     private static String className;
@@ -28,7 +29,7 @@ public class BuildMapperxml {
     private static final String BASE_QUERY_CONDITION = "base_query_condition";
     private static final String BASE_QUERY_CONDITION_EXTEND = "base_query_condition_extend";
     private static final String QUERY_CONDITION = "query_condition";
-    private static final Logger logger = LoggerFactory.getLogger(BuildMapperxml.class);
+    private static final Logger logger = LoggerFactory.getLogger(BuildMapperDaoxml.class);
 
     public static void execute(TableInfo tableInfo) {
         //输出流
@@ -81,7 +82,7 @@ public class BuildMapperxml {
         File folder = new File(Constants.PATH_RESOURCES_MAPPER);
         File MapperxmlFile = new File(folder, className + ".xml");
         if (!folder.exists()) {
-            folder.mkdir();
+            folder.mkdirs();
         }
         fileOutputStream = new FileOutputStream(MapperxmlFile);
         bw = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
@@ -324,7 +325,6 @@ public class BuildMapperxml {
         bw.write("\t\t<trim prefix=\"\" suffix=\"\" suffixOverrides=\",\">");
         bw.newLine();
         //唯一性值不允许修改
-        Map<String, String> keymap = new HashMap<>();
         for (Map.Entry<String, List<FieldInfo>> entry : keyIndexMap.entrySet()) {
             List<FieldInfo> fieldInfoList = entry.getValue();
             for (FieldInfo item : fieldInfoList) {
@@ -358,11 +358,11 @@ public class BuildMapperxml {
         StringJoiner insertProperty = new StringJoiner(",\n");
         StringJoiner bean_proName = new StringJoiner("},#{item.", "#{item.", "}");
         for (FieldInfo fieldInfo : tableInfo.getFieldList()) {
-            if (fieldInfo.getAutoIncrement()) {
-                continue;
-            }
             insertFile.add(fieldInfo.getFieldName());
             bean_proName.add(fieldInfo.getPropertyName());
+            if (keymap.get(fieldInfo.getFieldName()) != null) {
+                continue;
+            }
             insertProperty.add("\t\t" + fieldInfo.getFieldName() + " = VALUES(" + fieldInfo.getFieldName() + ")");
         }
         bw.write("\t\tINSERT INTO " + tableInfo.getTableName() + "(" + insertFile + ")values");

@@ -54,6 +54,11 @@ public class BuildServiceImpl {
                 bw.newLine();
                 bw.write("import " + Constants.PACKAGE_PO + "." + tableInfo.getBeanName() + ";");
                 bw.newLine();
+                //是否存在时间类型
+                if (tableInfo.getHaveDate() || tableInfo.getHaveDateTime()) {
+                    bw.write("import java.time.LocalDateTime;");
+                    bw.newLine();
+                }
                 bw.write("import " + Constants.PACKAGE_ENTITY_VO + ".PaginationResultVO;");
                 bw.newLine();
                 bw.newLine();

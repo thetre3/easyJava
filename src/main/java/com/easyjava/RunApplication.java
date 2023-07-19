@@ -14,8 +14,8 @@ public class RunApplication {
             BuildBase.execute();
             BuildPo.execute(tableInfo);
             BuildQuery.execute(tableInfo);
-            BuildMapper.execute(tableInfo);
-            BuildMapperxml.execute(tableInfo);
+            BuildMapperDao.execute(tableInfo);
+            BuildMapperDaoxml.execute(tableInfo);
             BuildService.execute(tableInfo);
             BuildServiceImpl.execute(tableInfo);
             BuildController.execute(tableInfo);
