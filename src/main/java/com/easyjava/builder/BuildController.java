@@ -149,9 +149,9 @@ public class BuildController {
                     bw.newLine();
                     bw.write("\tpublic ResponseVO getBy" + methodName + "(" + methodParams + ") {");
                     bw.newLine();
-                    bw.write("\t\t\tUsersInfo usersInfo = " + servicBeanName + ".getBy" + methodName + "(" + propertyName + ");");
+                    bw.write("\t\t\t"+tableInfo.getBeanName()+" Info = " + servicBeanName + ".getBy" + methodName + "(" + propertyName + ");");
                     bw.newLine();
-                    bw.write("\t\t\tif (usersInfo == null) {");
+                    bw.write("\t\t\tif (Info == null) {");
                     bw.newLine();
                     bw.write("\t\t\t\treturn getErrorResponseVO(null);");
                     bw.newLine();
