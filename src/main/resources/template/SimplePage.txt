@@ -8,8 +8,7 @@ public class SimplePage {
     private int start;
     private int end;
 
-    public SimplePage() {
-    }
+
 
     public SimplePage(Integer pageNo, int countTotal, int pageSize) {
         if (null == pageNo) {
@@ -18,12 +17,12 @@ public class SimplePage {
         this.pageNo = pageNo;
         this.countTotal = countTotal;
         this.pageSize = pageSize;
+        action();
     }
 
     public SimplePage(int start, int end) {
         this.start = start;
         this.end = end;
-        this.action();
     }
 
     public void action() {
@@ -31,7 +30,7 @@ public class SimplePage {
             this.pageSize = PageSizeEnum.SIZE20.getSize();
         }
         if (this.countTotal > 0) {
-            this.pageTotal = Math.toIntExact(this.countTotal % this.pageSize == 0 ? this.countTotal / this.pageSize : this.countTotal / this.pageSize + 1);
+            this.pageTotal = (int) Math.ceil(this.countTotal % this.pageSize == 0 ? (double) this.countTotal / this.pageSize : (double) this.countTotal / this.pageSize + 1);
         } else {
             pageTotal = 1;
         }
@@ -42,7 +41,7 @@ public class SimplePage {
             pageNo = pageTotal;
         }
         this.start = (pageNo - 1) * pageSize;
-        this.end = this.pageSize;
+        this.end = this.start + this.pageSize;
     }
 
     public int getPageNo() {
